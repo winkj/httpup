@@ -1,0 +1,74 @@
+.\" man page for httpup
+.\" Johannes Winkelmann, jw@tks6.net
+.\" 
+.\" .PU
+.TH "httpup" "8" "" "" ""
+.SH "NAME"
+.LP 
+httpup \- an md5sum based one way synchronisation tool for http file
+repositories
+.SH "SYNOPSIS"
+.B httpup <command> URL target
+
+.SH "DESCRIPTION"
+httpup performs a one way synchronisation of files published over
+http. It is meant for data which is one changed in one place but used
+in different other places, for example a ports system. It does only
+update the files which are changed (md5sum like).
+
+.SH "COMMANDS"
+
+
+.TP 
+.B httpup sync <URL> <target directory>
+synchronize the local
+.B target directory
+with URL
+
+
+.TP 
+.B httpup copy <URL> <target directory>
+copy the URL to
+.B target directory
+
+
+.TP 
+
+.B httpup list <target directory>
+List files under httpup's control
+
+
+.SH OPTIONS
+
+.B --verify-md5, -m:
+Verify the md5sum of downloaded files
+
+.B --repofile=<FILE>, -r <FILE>:
+Alternative name for the remote REPO file
+
+.B --encode, -e:
+URL encode filenames
+
+
+.SH "CONFIGURATION"
+In order to specify proxy server and proxy authentication information, httpup
+looks at /etc/httpup.conf which can contain the following four keys: 
+proxy_host, proxy_port, proxy_user and proxy_pass. Example:
+.IP
+.nf
+proxy_host http://proxy.domain.net
+proxy_port 8080
+proxy_user joe
+proxy_pass very_secret
+.i
+.IP
+
+.SH "EXAMPLES"
+.TP 
+.B httpup sync http://myhost/ports/tks6 /usr/ports/tks6
+Synchronize local copy in /usr/ports/tks6 with the one on
+.B myhost
+
+
+.SH "AUTHORS"
+Johannes Winkelmann <jw@tks6.net>

@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+# httpup-repgen2 - generate a repo for httpup
+# --
+# Optimized for low CPU load
+# 
+# Copyright 2003 (c) Johannes Winkelmann, jw@tks6.net
+
+use strict;
+
+my $base = @ARGV[0];
+
+if (! -d $base) {
+  die "No such directory '$base': $!";
+}
+
+$_ = $base;
+s/(.*)\/$/\1/;
+$base = $_;
+
+
+### Parsing old REPO file
+my %repoPorts = ();
+
+if (-f "$base/REPO") {
+  # print "Parsing REPO \n";
+  open(IN, "$base/REPO") || die "Can't open repo file: $!";
+  while (<IN>) {
+    s/\n//;
+    my ($t, $md5, $name) = split(/:/);
+    if ($t eq "f") {
+      $repoPorts{$name} = $md5;
+      # print "$name:$repoPorts{$name}\n";
+    }
+  }
+  close(IN);
+}
+
+my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+    $atime,$mtime,$ctime,$blksize,$blocks) = stat("$base/REPO");
+my %resultPorts = ();
+my $md5count = 0;
+getFiles($base, "", $mtime);
+
+open(OUT, ">$base/REPO") || die "Can't open repo file: $!";
+
+foreach my $key (sort keys %resultPorts) {
+  if ("$resultPorts{$key}" eq "0") {
+    print OUT "d:$key\n";
+  } else {
+    print OUT "f:$resultPorts{$key}:$key\n";
+  }
+}
+close(OUT);
+
+# print ".: Made $md5count md5sum calls :.\n";
+
+
+sub getFiles() {
+  # TODO: check double slashes
+
+  my $base = $_[0];
+  my $offset = $_[1];
+  my $repoMtime = $_[2];
+  my $dir = "$base/$offset";
+  opendir(DIR, $dir);
+  my @entries = readdir(DIR);
+  foreach my $d (@entries) {
+    next if ($d eq "." || $d eq "..");
+    next if ($d =~ "REPO.*");
+    if (-f "$dir/$d") {
+      my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+       $atime,$mtime,$ctime,$blksize,$blocks) = stat("$dir/$d");
+      # print "$offset$d (".$repoPorts{"xgalaga/.footprint"}.")\n";
+      if (!$repoPorts{"$offset$d"} || $repoMtime < $mtime) {
+	
+	my $md5sum = `md5sum $dir/$d|awk '{print \$1}'`;
+	$md5sum =~ s/\n//;
+	$resultPorts{"$offset$d"} = $md5sum;
+	++$md5count;
+	close(FILE);
+      } else {
+	$resultPorts{"$offset$d"} = $repoPorts{"$offset$d"};
+      }
+    } else {
+      &getFiles($base, "$offset$d/", $repoMtime);
+      $resultPorts{"$offset$d"} = 0;
+    }
+  }
+  closedir(DIR);
+}

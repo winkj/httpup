@@ -1,0 +1,6 @@
+This is httpup, and one way synchronize tool over http. It depends on libcurl
+and was written on linux but it should build on any platform supported by 
+libcurl.
+
+If you find bugs or run into any problems feel free to contact me by e-mail 
+Johannes, jw@tks6.net

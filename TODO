@@ -1,0 +1,35 @@
+* add support for tarball download
+  - 1. download tarball if no directory exists or --tarball 
+    2. decompress and create .httpup-current
+    3. download REPO
+    4. sync as usual
+  - make sure we create a .httpup-current to ensure all files downloaded are
+    md5sum checked or removed
+
+* Think about permission preservation
+
+
+* man page
+- httpup.conf
+
+* Feature:
+- add a -k (keep) feature
+- better return for findDiff()
+- don0t create dir if no matches
+
+* Concept:
+change it to use the following syntax:
+httpup diff [target dir] - show changed/added/removed files
+
+if baseurl is omitted, it is read from .httpup-urlinfo
+if target dir is omitted, httpup looks for an .httpup-urlinfo file in the
+current working directory. In order to get such a file, use httpup sync -k
+(keep).
+
+* Refactoring:
+- make more modular (network handler, file handler)
+- refactor main
+
+
+* Bugs
+- handle replacement of files with directories (and the other way around)

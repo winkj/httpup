@@ -1,0 +1,84 @@
+#!/bin/sh
+# httpup-repgen - One way sync from an http server to a local directory 
+# 
+# Copyright 2003-2005 (c) Johannes Winkelmann, # jw@tks6.net
+#
+# - Filtering code adapted from Per Liden's pkgmk
+# - optimized and made portable (sh-compliant) by Han Boetes
+
+
+# The repo file is place on the server. httpup downloads it,
+# makes the update and afterwards moves it to the REPOCURRENTFILE
+# which keeps track of the files which have been checked out. The
+# REPOCURRENTFILE contains only file names
+REPOFILE=REPO
+REPOCURRENTFILE=REPO.CURRENT
+
+VERSION=0.8
+
+info()
+{
+    echo $*
+}
+
+debug()
+{
+    return # echo $*
+}
+
+printUsage()
+{
+    cat << EOF
+httpup-repgen $VERSION
+  Copyright (c) 2003 Johannes Winkelmann
+
+Usage:
+  httpup-repgen [directory]
+EOF
+    exit -1
+}
+
+generateRepoFile()
+{
+    dir=${1:-.}
+    if [ ! -d $dir ]; then
+	echo "Can't generate repository for '$dir': No such directory"
+	exit -2
+    fi
+    echo "Generating repository for directory '$dir'"
+
+    OLDPWD=$PWD
+    cd $dir
+    rm -f $REPOFILE || exit -3
+
+    IGNORE_FILE=.httpup-repgen-ignore
+    if [ -r $HOME/$IGNORE_FILE ]; then
+        FILTER="grep -E -v -f $HOME/$IGNORE_FILE"
+    else
+        FILTER="cat"
+    fi
+    if [ -r $IGNORE_FILE ]; then
+        FILTER_LOCAL="grep -E -v -f $IGNORE_FILE"
+    else
+        FILTER_LOCAL="cat"
+    fi
+    FILTER_OWN="egrep -v ($REPOFILE|$REPOCURRENTFILE|$IGNORE_FILE)"
+
+    find . -type d ! -name . -printf "%P\n"|$FILTER|$FILTER_LOCAL|$FILTER_OWN|\
+    	awk '{print "d:"$1}' > $REPOFILE
+    files="$(find . -type f -printf "%P\n"|$FILTER|$FILTER_LOCAL|$FILTER_OWN)"
+    if [ -n "$files" ]; then
+        echo $files|xargs md5sum|awk '{print "f:"$1":"$2}' >> $REPOFILE
+    fi
+
+    cd $OLDPWD
+}
+
+case $1 in
+    -*)
+	printUsage
+	;;
+    *)
+	generateRepoFile $1
+	;;
+esac

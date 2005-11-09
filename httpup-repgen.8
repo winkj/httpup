@@ -1,0 +1,55 @@
+.\" man page for httpup-repgen
+.\" Johannes Winkelmann, jw@tks6.net
+.\" 
+.\" .PU
+.TH "httpup-repgen" "8" "" "" ""
+.SH "NAME"
+.LP 
+httpup-repgen \- generate an repository for httpup
+
+.SH "SYNOPSIS"
+.B httpup-repgen [target]
+.br 
+.SH "DESCRIPTION"
+httpup-repgen creates a repository for httpup. It reads the
+.B ~/.httpup-repgen-ignore
+and
+.B ./.httpup-repgen-ignore
+ignore certain patterns of files. This file will be used in a 'grep -v
+-f' command. Check the man page of grep(1) if you're uncertain how to use it.
+
+.LP
+httpup-repgen again requires the
+.B md5sum
+utility in order to generate a repository index. The more, a web
+server is needed to publish the collection. Possible problems can
+arise when publishing files which are executable: some webservers will
+refuse to serve them.
+
+.SH "COMMANDS"
+
+
+.TP 
+.B httpup-repgen [target directory]
+create a repository index file, either for the
+.B target directory
+specified or the current working directory if called without
+additional arguments The repository will be relative to the target directory
+
+
+.SH "EXAMPLES"
+.TP 
+.B httpup-repgen /home/www/ports/tks6
+create a repository relative the the path mentioned
+
+.TP
+.B $ echo '\\\\.tar\\\\.gz$' > ~/.httpup-repgen-ignore
+.TP
+.B $ httpup-repgen /home/www/ports/tks6
+create a repository ignoring files matching *.tar.gz
+
+.SH "AUTHORS"
+Johannes Winkelmann <jw@tks6.net>
+.SH "SEE ALSO"
+md5sum(1)
+grep(1)

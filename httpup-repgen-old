@@ -1,0 +1,71 @@
+#!/bin/bash
+# httpup-repgen - One way sync from an http server to a local directory
+# Copyright 2003 (c) Johannes Winkelmann, jw@tks6.net
+
+
+# The repo file is place on the server. httpsync downloads it, makes the
+# update and afterwards moves it to the REPOCURRENTFILE which keeps track
+# of the files which have been checked out. The REPOCURRENTFILE contains
+# only file names
+REPOFILE=REPO
+REPOCURRENTFILE=REPO.CURRENT
+
+VERSION=0.5
+
+function info(){
+    echo $*
+}
+function debug() {
+    return # echo $*
+}
+
+function printUsage() {
+    echo "httpup-repgen $VERSION"
+    echo "  Copyright (c) 2003 Johannes Winkelmann"
+    echo ""
+    echo "Usage:"
+    echo "  httpup-repgen [directory]"
+    exit -1
+}
+
+function generateRepoFile() {
+    dir="."
+    if [ ! "$1" = "" ]; then
+	dir=$1
+    fi
+    if [ ! -d $dir ]; then
+	echo "Can't generate repository for '$dir': No such directory"
+	exit -2
+    fi
+    echo "Generating repository for directory '$dir'"
+
+    OLDPWD=`pwd`
+    cd $dir
+    rm -f $REPOFILE || exit -3
+    touch $REPOFILE
+    if [ ! "$HS_IGNORE" = "" ]; then
+	ignore=$HS_IGNORE
+	ignore="-and $ignore"
+	debug "$ignore"
+    fi
+    for f in `find . -not -name \. $ignore`; do
+	f=`echo $f|sed -e 's/^\.\///'`
+	if [ "$f" == "$REPOFILE" ] || [ "$f" = "$REPOCURRENTFILE" ]; then
+	    continue
+	elif [ -d $f ]; then
+	    echo "d:$f" >> $REPOFILE
+	else
+ 	    md5=`md5sum $f|awk '{print $1}'`
+	    echo "f:$md5:$f" >> $REPOFILE
+	fi
+    done
+    
+    cd $OLDPWD
+}
+
+if [ "$1" = "--help" ]; then
+    printUsage
+else
+    generateRepoFile $1
+fi
+

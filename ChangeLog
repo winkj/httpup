@@ -1,0 +1,76 @@
+* 0.4.0f        22.09.2005	Johannes Winkelmann
+- remove deflate option again
+
+* 0.4.0e        20.09.2005	Johannes Winkelmann
+- Add deflate option
+- Set timeout to 30s
+
+* 0.4.0d        03.05.2005	Johannes Winkelmann
+- fallback when argument list too long
+
+* 0.4.0b        03.05.2005	Johannes Winkelmann
+- fix two bugs in -repgen with ignore expressions
+
+* 0.4.0a        02.04.2005      Johannes Winkelmann
+- Fix a nasty bug when write permissions are missing 
+
+
+* 0.4.0         04.02.2005      Johannes Winkelmann
+- Initial import of argparser
+- remove 'mirror' command
+- 'copy' command requires 2 arguments
+- support nondefault REPO file name
+- include new httpup-repgen: new ignore syntax
+- refactorings
+- add --verify-md5 to verify md5sum
+- nonzero return value if md5sum verification failed
+- merge Han's many changes to httpup-repgen
+
+
+* 0.3.2         28.07.2004	Johannes Winkelmann
+- New commands: copy (no additional files), mirror (keep REPO file)
+- Disable debug message in main.cpp (thanks Simone)
+	
+* 0.3.1		15.04.2004	Johannes Winkelmann
+- fix segfault if no .httpup-url found
+- remove debug output
+- add missing include
+- fix substring checkout bug
+
+* 0.3.0         14.04.2004	Johannes Winkelmann
+- Enable http 302 redirection
+
+* 0.2.94        07.04.2004	Johannes Winkelmann
+- add detection for malicious file names in remote repo files (".." at least)
+- update man page
+
+* 0.2.93	05.04.2004	Johannes Winkelmann
+- fix config parser
+- fix bug in proxy auth (curl <-> std::string)
+
+* 0.2.92	03.04.2004	Johannes Winkelmann
+- rename REPO.CURRENT to .httpup-repo.current (stay backward compatible for
+  0.3.0)
+- Remove files with directories, warn if a files should replace a directory
+- support for proxy server and proxy authentication
+- make 'list' recursive
+
+* 0.2.91	28.03.2004	Johannes Winkelmann
+- use ~/.netrc for supplying username/password to proxy
+
+* 0.2.90	26.03.2004	Johannes Winkelmann
+- Major refactoring; make it partly object oriented :-)
+- Use pwd if no target directory specified
+- allow sync without arguments -> use urlinfo in pwd
+- allow subtree sync
+
+* 0.2.2		04.10.2003	Johannes Winkelmann
+- Fix ugly bug caused by temporary c_str() references
+
+* 0.2.1	lost
+
+* 0.2     	27.06.2003      Johannes Winkelmann
+- Bugfix when deleting files
+
+* 0.1		23.06.2003	Johannes Winkelmann
+- initial release

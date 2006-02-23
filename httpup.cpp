@@ -27,6 +27,7 @@ const string HttpUp::REPOCURRENTFILEOLD = "REPO.CURRENT";
 const string HttpUp::REPOCURRENTFILE = ".httpup-repo.current";
 const string HttpUp::URLINFO = ".httpup-urlinfo";
 
+const int HttpUp::DEFAULT_TIMEOUT = 60;
 
 HttpUp::HttpUp(const HttpupArgparser& argParser,
                const string& url, const string& target,
@@ -227,8 +228,18 @@ int HttpUp::exec(ExecType type)
     curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
     curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 30);
 
+    long timeout = DEFAULT_TIMEOUT;
+    if (config.operationTimeout != "") {
+        char* end = 0;
+        long config_timeout = 0;
+        config_timeout = strtol(config.operationTimeout.c_str(), &end, 10);
+        if (*end == 0) {
+            timeout = config_timeout;
+        }
+    }
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
+    
 
     // proxy, proxy auth
     if (config.proxyHost != "") {

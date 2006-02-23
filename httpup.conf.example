@@ -4,3 +4,6 @@ proxy_host  http://test.proxy.ch
 proxy_port 80
 proxy_user winkj
 proxy_pass very_secret
+
+# timeout settings
+operation_timeout 60

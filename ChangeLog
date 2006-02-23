@@ -1,4 +1,8 @@
-* 0.4.0f        22.09.2005	Johannes Winkelmann
+* 0.4.0g        23.02.2006	Johannes Winkelmann
+- change default timeout to 60s
+- add configuration variable for timeout: operation_timeout
+
+	* 0.4.0f        22.09.2005	Johannes Winkelmann
 - remove deflate option again
 
 * 0.4.0e        20.09.2005	Johannes Winkelmann

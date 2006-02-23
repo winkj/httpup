@@ -5,7 +5,7 @@ all: httpup
 ## Configuration
 #
 NAME=httpup
-VERSION="0.4.0f"
+VERSION="0.4.0g"
 CXX=g++
 CXXFLAGS=-Wall -ansi -pedantic -DMF_VERSION='${VERSION}' 
 LDFLAGS=-lcurl

@@ -49,6 +49,8 @@ public:
     static const std::string REPOCURRENTFILE;
     static const std::string REPOCURRENTFILEOLD;
     static const std::string URLINFO;
+    
+    static const int DEFAULT_TIMEOUT;
 
 private:
     int syncOrReturn(CURL* curl, char* curlErrorBuffer);

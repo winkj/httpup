@@ -7,3 +7,4 @@ THANKS:
 Simone Rota for testing and bug reports
 Jürgen Daubert for testing
 Han Boetes for optimizing the repgen script
+Oleksiy V. Khilkevich for the operation_timeout patch prototype

@@ -42,15 +42,17 @@ int FileUtils::deltree(const char* directory)
             continue;
         }
         struct stat info;
-        stat(entry->d_name, &info);
+        if (stat(entry->d_name, &info) != 0) {
+            return -1;
+        }
+        string pathName = string(directory) + "/" + string(entry->d_name);
         if (S_ISDIR(info.st_mode)) {
-            if (deltree(entry->d_name)) {
+            if (deltree(pathName.c_str())) {
                 ret = -1;
             }
-            rmdir(entry->d_name);
+            rmdir(pathName.c_str());
         } else {
-            string file = string(directory) + "/" + string(entry->d_name);
-            if (unlink(file.c_str())) {
+            if (unlink(pathName.c_str())) {
                 ret = -1;
             }
         }

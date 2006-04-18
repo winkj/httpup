@@ -346,8 +346,7 @@ std::string ArgParser::generateHelpForCommand(const std::string& command) const
     help += "\n\n";
 
 
-    std::map<int, Option*>::const_iterator it =
-    it = cmd->mandatoryOptions.begin();
+    std::map<int, Option*>::const_iterator it = cmd->mandatoryOptions.begin();
     if (it != cmd->mandatoryOptions.end()) {
         help += "  Required: \n";
         for (; it != cmd->mandatoryOptions.end(); ++it) {

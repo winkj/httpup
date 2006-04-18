@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <libgen.h>
 #include <dirent.h>
 
 #include "fileutils.h"
@@ -239,7 +240,7 @@ int HttpUp::exec(ExecType type)
         }
     }
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
-    
+
 
     // proxy, proxy auth
     if (config.proxyHost != "") {
@@ -304,9 +305,12 @@ int HttpUp::syncOrReturn(CURL* curl, char* curlErrorBuffer)
         return -1;
     }
 
-    string collectionName =
-        basename((m_baseDirectory.substr(0, m_baseDirectory.length()-1)).
-                 c_str());
+    string collectionName = 
+        m_baseDirectory.substr(0, m_baseDirectory.length()-1);
+    string::size_type pos = collectionName.rfind("/");
+    if (pos != string::npos) {
+        collectionName = collectionName.substr(pos+1);
+    }
 
     cout << "Updating collection " << collectionName << endl;
 

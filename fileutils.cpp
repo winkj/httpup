@@ -42,10 +42,11 @@ int FileUtils::deltree(const char* directory)
             continue;
         }
         struct stat info;
-        if (stat(entry->d_name, &info) != 0) {
+        string pathName = string(directory) + "/" + string(entry->d_name);
+        if (stat(pathName.c_str(), &info) != 0) {
+            cout << entry->d_name << endl;
             return -1;
         }
-        string pathName = string(directory) + "/" + string(entry->d_name);
         if (S_ISDIR(info.st_mode)) {
             if (deltree(pathName.c_str())) {
                 ret = -1;

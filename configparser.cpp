@@ -10,6 +10,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <cstring>
 #include "configparser.h"
 
 using namespace std;

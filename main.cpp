@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 #include "httpup.h"

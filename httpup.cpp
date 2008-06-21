@@ -16,6 +16,8 @@
 #include <unistd.h>
 #include <libgen.h>
 #include <dirent.h>
+#include <cstring>
+#include <cstdlib>
 
 #include "fileutils.h"
 #include "httpup.h"

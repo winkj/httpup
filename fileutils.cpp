@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <iostream>
+#include <cstring>
 
 #include "md5.h"
 #include "httpup.h"

@@ -13,6 +13,8 @@
 #include <sstream>
 #include <cassert>
 #include <libgen.h>
+#include <cstring>
+#include <cstdlib>
 
 #include "argparser.h"
 

@@ -31,6 +31,7 @@ public:
     static ArgParser::APOpt OPT_REPOFILE;
     static ArgParser::APOpt OPT_ENCODE;
     static ArgParser::APOpt OPT_VERIFY_MD5;
+    static ArgParser::APOpt OPT_INSECURE_SSL;
 
     std::string getAppIdentification() const
         { return std::string("httpup ")  + MF_VERSION + "\n"; }

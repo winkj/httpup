@@ -1,3 +1,8 @@
+* 0.4.0j	24.06.2008	Johannes Winkelmann
+- add gcc 4.3 fixes by Fredrik Rinnestam
+- add "[options]" to man page   ]
+- add --insecure-ssl/-k option  ] Suggested by Jose Beneyto
+
 * 0.4.0i	15.04.2006	Johannes Winkelmann
 - Remove directories again (regression from 4.0h)
 - improve some compilation issues reported by Han

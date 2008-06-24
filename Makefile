@@ -1,5 +1,5 @@
 name=httpup
-version=0.4.0i
+version=0.4.0j-pre
 
 prefix=		/usr/local
 bindir=		$(prefix)/bin

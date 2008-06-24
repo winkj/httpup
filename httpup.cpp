@@ -231,6 +231,10 @@ int HttpUp::exec(ExecType type)
     curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
     curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+    if (m_argParser.isSet(HttpupArgparser::OPT_INSECURE_SSL)) {
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+    }
+
 
     long timeout = DEFAULT_TIMEOUT;
     if (config.operationTimeout != "") {

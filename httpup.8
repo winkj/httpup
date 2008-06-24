@@ -8,7 +8,7 @@
 httpup \- an md5sum based one way synchronisation tool for http file
 repositories
 .SH "SYNOPSIS"
-.B httpup <command> URL target
+.B httpup [options] <command> URL target
 
 .SH "DESCRIPTION"
 httpup performs a one way synchronisation of files published over
@@ -49,6 +49,8 @@ Alternative name for the remote REPO file
 .B --encode, -e:
 URL encode filenames
 
+.B --insecure-ssl, -k
+Ignore SSL certificates when downloading from an HTTPS host
 
 .SH "CONFIGURATION"
 In order to specify proxy server and proxy authentication information, httpup

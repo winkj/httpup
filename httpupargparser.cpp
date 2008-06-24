@@ -19,6 +19,7 @@ ArgParser::APCmd HttpupArgparser::CMD_LIST;
 ArgParser::APOpt HttpupArgparser::OPT_REPOFILE;
 ArgParser::APOpt HttpupArgparser::OPT_ENCODE;
 ArgParser::APOpt HttpupArgparser::OPT_VERIFY_MD5;
+ArgParser::APOpt HttpupArgparser::OPT_INSECURE_SSL;
 
 
 HttpupArgparser::HttpupArgparser()
@@ -42,9 +43,13 @@ HttpupArgparser::HttpupArgparser()
                     'm',
                     "verify md5sum of downloaded files");
 
+    OPT_INSECURE_SSL.init("insecure-ssl",
+                          'k',
+                          "Don't verify the SSL certificate of the server");
     addOption(CMD_SYNC, OPT_REPOFILE, false);
     addOption(CMD_SYNC, OPT_ENCODE, false);
     addOption(CMD_SYNC, OPT_VERIFY_MD5, false);
+    addOption(CMD_SYNC, OPT_INSECURE_SSL, false);
 
 
     // - copy
@@ -53,11 +58,13 @@ HttpupArgparser::HttpupArgparser()
                ArgParser::EQ, 2, "<url> <target dir>");
     addOption(CMD_COPY, OPT_REPOFILE, false);
     addOption(CMD_COPY, OPT_ENCODE, false);
-    addOption(CMD_SYNC, OPT_VERIFY_MD5, false);
+    addOption(CMD_COPY, OPT_VERIFY_MD5, false);
+    addOption(CMD_COPY, OPT_INSECURE_SSL, false);
 
     // - list
     addCommand(CMD_LIST, "list",
                "list files in <directory> which are controlled by httpup",
                ArgParser::MAX, 1, "<directory>");
     addOption(CMD_LIST, OPT_REPOFILE, false);
+    addOption(CMD_LIST, OPT_INSECURE_SSL, false);
 }

@@ -1,3 +1,6 @@
+* 0.4.0k	18.06.2009	Johannes Winkelmann
+- gcc 4.4 compilation fix by Tilman
+
 * 0.4.0j	24.06.2008	Johannes Winkelmann
 - add gcc 4.3 fixes by Fredrik Rinnestam
 - add "[options]" to man page   ]

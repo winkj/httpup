@@ -14,6 +14,8 @@
 #include <cstdlib>
 using namespace std;
 
+#include <unistd.h>
+
 #include "httpup.h"
 #include "fileutils.h"
 #include "httpupargparser.h"
